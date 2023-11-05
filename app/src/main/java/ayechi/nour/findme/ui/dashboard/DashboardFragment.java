@@ -1,0 +1,50 @@
+package ayechi.nour.findme.ui.dashboard;
+
+import android.os.Bundle;
+import android.telephony.SmsManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
+import ayechi.nour.findme.databinding.FragmentDashboardBinding;
+
+public class DashboardFragment extends Fragment {
+
+    private FragmentDashboardBinding binding;
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        //DashboardViewModel dashboardViewModel = new ViewModelProvider(this).get(DashboardViewModel.class);
+
+        binding = FragmentDashboardBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        binding.btnSendSMS.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String numero = binding.edNumero.getText().toString();
+                SmsManager manager = SmsManager.getDefault();
+                manager.sendTextMessage(numero,
+                        null,
+                        "FindMe: Envoyer moi votre position",
+                        null,
+                        null);
+            }
+        });
+
+        //final TextView textView = binding.textDashboard;
+        //dashboardViewModel.getText().observe(getViewLifecycleOwner(), textView::setText);
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+}
